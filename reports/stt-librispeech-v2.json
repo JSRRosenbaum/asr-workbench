@@ -1,0 +1,69 @@
+{
+  "generated": "2026-09-28T15:34:13Z",
+  "runs": [
+    {
+      "file": "reports/moonshine-cpu-test-clean.jsonl",
+      "backend": "moonshine-cpu",
+      "subset": "test-clean",
+      "model": "private-moonshine-asr",
+      "utterances": 2620,
+      "ok": 2620,
+      "errors": 0,
+      "ref_words": 52576,
+      "edits": 2546,
+      "corpus_wer": 0.0484,
+      "word_accuracy_pct": 95.16,
+      "wall_s": 129.86,
+      "audio_s": 19455.36,
+      "rtf": 0.0067
+    },
+    {
+      "file": "reports/moonshine-gpu1-test-clean.jsonl",
+      "backend": "moonshine-gpu1",
+      "subset": "test-clean",
+      "model": "private-moonshine-asr",
+      "utterances": 2620,
+      "ok": 2620,
+      "errors": 0,
+      "ref_words": 52576,
+      "edits": 2560,
+      "corpus_wer": 0.0487,
+      "word_accuracy_pct": 95.13,
+      "wall_s": 138.13,
+      "audio_s": 19455.36,
+      "rtf": 0.0071
+    },
+    {
+      "file": "reports/moonshine-cpu-test-other.jsonl",
+      "backend": "moonshine-cpu",
+      "subset": "test-other",
+      "model": "private-moonshine-asr",
+      "utterances": 2939,
+      "ok": 2939,
+      "errors": 0,
+      "ref_words": 52343,
+      "edits": 6773,
+      "corpus_wer": 0.1294,
+      "word_accuracy_pct": 87.06,
+      "wall_s": 135.31,
+      "audio_s": 19232.8,
+      "rtf": 0.007
+    },
+    {
+      "file": "reports/moonshine-gpu1-test-other.jsonl",
+      "backend": "moonshine-gpu1",
+      "subset": "test-other",
+      "model": "private-moonshine-asr",
+      "utterances": 2939,
+      "ok": 2939,
+      "errors": 0,
+      "ref_words": 52343,
+      "edits": 6870,
+      "corpus_wer": 0.1312,
+      "word_accuracy_pct": 86.88,
+      "wall_s": 146.21,
+      "audio_s": 19232.8,
+      "rtf": 0.0076
+    }
+  ]
+}

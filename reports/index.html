@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LibriSpeech ASR v2 · ASH</title>
+<style>
+:root { --ink:#15202b; --muted:#5e6a75; --paper:#f4f6f8; --card:#fff; --line:#d9e0e6; --teal:#087e8b; --mint:#daf1ec; }
+* { box-sizing:border-box; }
+body { margin:0; color:var(--ink); background:var(--paper); font:16px/1.45 system-ui,sans-serif; }
+main { width:min(720px,calc(100% - 20px)); margin:auto; padding:22px 0 40px; }
+h1 { margin:0; font-size:30px; letter-spacing:-.03em; line-height:1.1; }
+h2 { font-size:18px; margin:26px 0 8px; }
+p { margin:8px 0; }
+.sub { color:var(--muted); }
+.hero { color:#fff; background:linear-gradient(135deg,#14394c,#087e8b); border-radius:16px; padding:18px; }
+.hero .sub { color:#d7f3ef; }
+.grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px; }
+.card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px; }
+.k { color:var(--muted); font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; }
+.v { font-size:28px; font-weight:750; letter-spacing:-.03em; margin:2px 0; }
+.callout { background:var(--mint); border-left:5px solid var(--teal); border-radius:8px; padding:12px 14px; }
+ul { margin:8px 0 0; padding-left:18px; }
+code { font:13px/1.4 ui-monospace,monospace; }
+@media (max-width:520px) { .grid { grid-template-columns:1fr; } .v { font-size:26px; } }
+</style>
+</head>
+<body>
+<main>
+<header class="hero">
+<div class="sub">Work host: ASH · 2026-09-28 15:34 UTC</div>
+<h1>LibriSpeech ASR v2</h1>
+<p>Moonshine Streaming Tiny Q8, scored on the official test sets. Rowan supplied the harness idea only. Nothing in this run executed there.</p>
+</header>
+<section>
+<h2>Corpus WER</h2>
+<p class="sub">Total word edits ÷ total reference words. Not an average of per-utterance rates. Tokenizer: lowercase letters, digits, apostrophes. This is not the official SCTK/sclite scorer.</p>
+<div class="grid">
+<div class="card"><div class="k">CPU · test-clean</div><div class="v">4.84%</div><div class="sub">95.16% word accuracy · 2,546 / 52,576 words · RTF 0.0067 · 129.9 s</div></div>
+<div class="card"><div class="k">GPU1 · test-clean</div><div class="v">4.87%</div><div class="sub">95.13% word accuracy · 2,560 / 52,576 words · RTF 0.0071 · 138.1 s</div></div>
+<div class="card"><div class="k">CPU · test-other</div><div class="v">12.94%</div><div class="sub">87.06% word accuracy · 6,773 / 52,343 words · RTF 0.0070 · 135.3 s</div></div>
+<div class="card"><div class="k">GPU1 · test-other</div><div class="v">13.12%</div><div class="sub">86.88% word accuracy · 6,870 / 52,343 words · RTF 0.0076 · 146.2 s</div></div>
+</div>
+</section>
+<section>
+<h2>What was validated</h2>
+<div class="callout">
+<strong>Live on ASH, local only.</strong> 2,620 test-clean and 2,939 test-other utterances. 0 transport errors on the scored pass. About 5.4 hours of audio per set. No private meeting audio. No OpenAI submission.
+</div>
+<ul>
+<li>CPU server: <code>127.0.0.1:18197</code>, backend cpu, model <code>private-moonshine-asr</code>.</li>
+<li>GPU1 server: <code>127.0.0.1:18198</code>, same weights beside Ali TTS. Requests are serialized with TTS.</li>
+<li>Same weights. CPU and GPU1 differ by 0.03 points on clean and 0.18 on other. Not a quality win for the GPU.</li>
+<li>A discarded first pass wrote only HTTP 500s. Piped ffmpeg WAVs have no data chunk. The scored pass used real file headers.</li>
+<li>LibriSpeech clips are short, so the known CPU abort past 120 seconds was not exercised.</li>
+</ul>
+</section>
+<p class="sub">State: scored locally on ASH · published report only · not an official SCTK leaderboard claim. Project: asr-workbench.</p>
+</main>
+</body>
+</html>
