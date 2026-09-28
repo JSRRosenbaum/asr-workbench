@@ -3,59 +3,104 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>LibriSpeech ASR v2 · ASH</title>
+<title>ASH ASR workbench</title>
 <style>
-:root { --ink:#15202b; --muted:#5e6a75; --paper:#f4f6f8; --card:#fff; --line:#d9e0e6; --teal:#087e8b; --mint:#daf1ec; }
+:root { --ink:#15202b; --muted:#5e6a75; --paper:#f6f7f9; --card:#fff; --rule:#d9e0e6; --navy:#14394c; --teal:#087e8b; --mint:#daf1ec; --amber:#ad6b00; --amber-bg:#fff2d6; --green:#146c43; --red:#a12d2d; }
 * { box-sizing:border-box; }
-body { margin:0; color:var(--ink); background:var(--paper); font:16px/1.45 system-ui,sans-serif; }
-main { width:min(720px,calc(100% - 20px)); margin:auto; padding:22px 0 40px; }
-h1 { margin:0; font-size:30px; letter-spacing:-.03em; line-height:1.1; }
-h2 { font-size:18px; margin:26px 0 8px; }
+body { margin:0; color:var(--ink); background:var(--paper); font:16px/1.5 Inter,ui-sans-serif,system-ui,sans-serif; }
+main { width:min(1080px,calc(100% - 24px)); margin:auto; padding:28px 0 64px; }
+h1,h2,h3 { line-height:1.15; }
+h1 { margin:0; font-size:clamp(30px,5vw,48px); letter-spacing:-.035em; }
+h2 { font-size:24px; margin:36px 0 12px; letter-spacing:-.02em; }
 p { margin:8px 0; }
+a { color:#006b88; font-weight:650; }
+code { font:13px/1.45 ui-monospace,SFMono-Regular,Consolas,monospace; }
+.eyebrow { color:var(--teal); text-transform:uppercase; letter-spacing:.11em; font-size:12px; font-weight:800; }
 .sub { color:var(--muted); }
-.hero { color:#fff; background:linear-gradient(135deg,#14394c,#087e8b); border-radius:16px; padding:18px; }
-.hero .sub { color:#d7f3ef; }
-.grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px; }
-.card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px; }
-.k { color:var(--muted); font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; }
-.v { font-size:28px; font-weight:750; letter-spacing:-.03em; margin:2px 0; }
-.callout { background:var(--mint); border-left:5px solid var(--teal); border-radius:8px; padding:12px 14px; }
-ul { margin:8px 0 0; padding-left:18px; }
-code { font:13px/1.4 ui-monospace,monospace; }
-@media (max-width:520px) { .grid { grid-template-columns:1fr; } .v { font-size:26px; } }
+.hero { padding:28px; color:#fff; background:linear-gradient(135deg,#14394c,#087e8b); border-radius:20px; }
+.hero .sub { color:#e2f4f2; }
+.fact-grid,.metric-grid { display:grid; gap:12px; }
+.fact-grid { grid-template-columns:repeat(3,1fr); margin-top:20px; }
+.fact { padding:14px; background:#ffffff18; border:1px solid #ffffff38; border-radius:12px; }
+.fact strong { display:block; font-size:22px; }
+.card { background:var(--card); border:1px solid var(--rule); border-radius:16px; padding:18px; }
+.callout { border-left:5px solid var(--teal); background:var(--mint); border-radius:8px; padding:14px 16px; }
+.warn { border-left-color:var(--amber); background:var(--amber-bg); }
+.metric-grid { grid-template-columns:repeat(4,1fr); }
+.metric .label { color:var(--muted); font-size:12px; font-weight:750; text-transform:uppercase; letter-spacing:.06em; }
+.metric .value { font-size:28px; font-weight:800; letter-spacing:-.03em; margin:2px 0; }
+.metric .detail { color:var(--muted); font-size:13px; }
+table { width:100%; border-collapse:collapse; background:var(--card); border:1px solid var(--rule); border-radius:16px; overflow:hidden; }
+th,td { padding:12px 14px; border-bottom:1px solid var(--rule); text-align:left; vertical-align:top; }
+th { color:#43505a; background:#f0f3f5; font-size:12px; text-transform:uppercase; letter-spacing:.06em; }
+tr:last-child td { border-bottom:0; }
+.tag { display:inline-block; margin:2px 4px 2px 0; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:750; color:#23566e; background:#e5f0f5; }
+.fine { color:var(--muted); font-size:13px; }
+footer { margin-top:36px; color:var(--muted); font-size:13px; }
+@media (max-width:850px) {
+  .fact-grid,.metric-grid { grid-template-columns:1fr 1fr; }
+  table { display:block; overflow-x:auto; }
+}
+@media (max-width:520px) { .fact-grid,.metric-grid { grid-template-columns:1fr; } }
 </style>
 </head>
 <body>
 <main>
 <header class="hero">
-<div class="sub">Work host: ASH · 2026-09-28 15:34 UTC</div>
-<h1>LibriSpeech ASR v2</h1>
-<p>Moonshine Streaming Tiny Q8, scored on the official test sets. Rowan supplied the harness idea only. Nothing in this run executed there.</p>
+<div class="eyebrow" style="color:#bdeee8">ASH · LibriSpeech · 2026-09-28</div>
+<h1>ASR workbench</h1>
+<p class="sub">One model, official transcripts, no diarization. The earlier meeting comparison is a different test and is not folded into these percentages.</p>
+<div class="fact-grid">
+<div class="fact"><strong>10.75 hours</strong><span>5.40 h test-clean + 5.34 h test-other. 5,559 utterances. Heard once per backend.</span></div>
+<div class="fact"><strong>ASR only</strong><span>Word error against the LibriSpeech transcript. No speaker labels, no segmentation, no meeting audio.</span></div>
+<div class="fact"><strong>1 model</strong><span>Moonshine Streaming Tiny Q8. CPU and GPU1 are two placements of the same weights, not two models.</span></div>
+</div>
 </header>
+
 <section>
-<h2>Corpus WER</h2>
-<p class="sub">Total word edits ÷ total reference words. Not an average of per-utterance rates. Tokenizer: lowercase letters, digits, apostrophes. This is not the official SCTK/sclite scorer.</p>
-<div class="grid">
-<div class="card"><div class="k">CPU · test-clean</div><div class="v">4.84%</div><div class="sub">95.16% word accuracy · 2,546 / 52,576 words · RTF 0.0067 · 129.9 s</div></div>
-<div class="card"><div class="k">GPU1 · test-clean</div><div class="v">4.87%</div><div class="sub">95.13% word accuracy · 2,560 / 52,576 words · RTF 0.0071 · 138.1 s</div></div>
-<div class="card"><div class="k">CPU · test-other</div><div class="v">12.94%</div><div class="sub">87.06% word accuracy · 6,773 / 52,343 words · RTF 0.0070 · 135.3 s</div></div>
-<div class="card"><div class="k">GPU1 · test-other</div><div class="v">13.12%</div><div class="sub">86.88% word accuracy · 6,870 / 52,343 words · RTF 0.0076 · 146.2 s</div></div>
-</div>
+<h2>Why CPU looked faster</h2>
+<div class="callout warn"><strong>It is a small overhead gap, not a faster class of machine.</strong> On test-clean the server itself spent 99.6 s on CPU and 105.4 s on GPU1. Median call: 29.1 ms versus 32.8 ms. Both are about 0.005× realtime. The 58 MB Tiny model is already cheap on a 9950X. These clips are short — median 5.8 s, max 35 s — so HIP launch and copy cost more than the matmul saves. audio.cpp’s GPU path is a CUDA-shaped port. GPU1 was also holding Ali TTS in the same process. That can add noise; it does not explain a different accuracy regime.</div>
 </section>
+
 <section>
-<h2>What was validated</h2>
-<div class="callout">
-<strong>Live on ASH, local only.</strong> 2,620 test-clean and 2,939 test-other utterances. 0 transport errors on the scored pass. About 5.4 hours of audio per set. No private meeting audio. No OpenAI submission.
+<h2>LibriSpeech result</h2>
+<p>Corpus WER is total word edits divided by total reference words. Not an average of per-utterance rates. Tokenizer: lowercase letters, digits, apostrophes. Not the official SCTK scorer.</p>
+<div class="metric-grid">
+<div class="card metric"><div class="label">CPU · clean</div><div class="value">4.84%</div><div class="detail">2,546 / 52,576 words · RTF 0.0067</div></div>
+<div class="card metric"><div class="label">GPU1 · clean</div><div class="value">4.87%</div><div class="detail">2,560 / 52,576 · RTF 0.0071</div></div>
+<div class="card metric"><div class="label">CPU · other</div><div class="value">12.94%</div><div class="detail">6,773 / 52,343 · RTF 0.0070</div></div>
+<div class="card metric"><div class="label">GPU1 · other</div><div class="value">13.12%</div><div class="detail">6,870 / 52,343 · RTF 0.0076</div></div>
 </div>
-<ul>
-<li>CPU server: <code>127.0.0.1:18197</code>, backend cpu, model <code>private-moonshine-asr</code>.</li>
-<li>GPU1 server: <code>127.0.0.1:18198</code>, same weights beside Ali TTS. Requests are serialized with TTS.</li>
-<li>Same weights. CPU and GPU1 differ by 0.03 points on clean and 0.18 on other. Not a quality win for the GPU.</li>
-<li>A discarded first pass wrote only HTTP 500s. Piped ffmpeg WAVs have no data chunk. The scored pass used real file headers.</li>
-<li>LibriSpeech clips are short, so the known CPU abort past 120 seconds was not exercised.</li>
-</ul>
+<table style="margin-top:14px">
+<thead><tr><th>Placement</th><th>Set</th><th>Utterances</th><th>Audio</th><th>Errors</th><th>Server time</th><th>Client wall</th></tr></thead>
+<tbody>
+<tr><td>CPU <code>18197</code></td><td>test-clean</td><td>2,620</td><td>5.404 h</td><td>0</td><td>99.6 s</td><td>129.9 s</td></tr>
+<tr><td>GPU1 <code>18198</code></td><td>test-clean</td><td>2,620</td><td>5.404 h</td><td>0</td><td>105.4 s</td><td>138.1 s</td></tr>
+<tr><td>CPU</td><td>test-other</td><td>2,939</td><td>5.342 h</td><td>0</td><td>98.1 s</td><td>135.3 s</td></tr>
+<tr><td>GPU1</td><td>test-other</td><td>2,939</td><td>5.342 h</td><td>0</td><td>107.1 s</td><td>146.2 s</td></tr>
+</tbody>
+</table>
+<p class="fine">Client wall includes ffmpeg and HTTP. Server time is audio.cpp’s own <code>wall_ms</code>. Same weights: clean differs by 14 words, other by 97. Not a quality win for the GPU.</p>
 </section>
-<p class="sub">State: scored locally on ASH · published report only · not an official SCTK leaderboard claim. Project: asr-workbench.</p>
+
+<section>
+<h2>What this page is not</h2>
+<div class="callout"><strong>No diarization.</strong> The previous page compared transcription and speaker segmentation on a 7:24 meeting pack: Voxtype Parakeet, VibeVoice, whisper.cpp, Qwen3-ASR, faster-whisper, WhisperX, Nemotron, pyannote, and others. Those numbers are not LibriSpeech WER and are not repeated here as if they were. That page’s meeting recordings were removed from this public root.</div>
+<p>Models named on the old page and not scored on this 10.75 h set:</p>
+<p>
+<span class="tag">Voxtype Parakeet TDT</span>
+<span class="tag">VibeVoice 1.5B</span>
+<span class="tag">whisper.cpp large-v3-turbo</span>
+<span class="tag">Qwen3-ASR 1.7B</span>
+<span class="tag">faster-whisper</span>
+<span class="tag">WhisperX</span>
+<span class="tag">Nemotron3</span>
+<span class="tag">pyannote</span>
+</p>
+<p class="fine">Nemotron and pyannote segment speakers. They do not transcribe. A LibriSpeech WER for them would be the wrong metric.</p>
+</section>
+
+<footer>Scored on ASH, 2026-09-28 15:34 UTC. Repo: asr-workbench. State: this LibriSpeech pass is validated locally. The other models are not validated on this dataset.</footer>
 </main>
 </body>
 </html>
